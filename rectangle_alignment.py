@@ -18,7 +18,12 @@ def rect_alignment(images:list, titles:list, angles:list):
         None
         
     '''
-    fig, axes = plt.subplots(len(images), 2, figsize=(30, 30))
+
+    num_images = len(images)
+    # fig_height = 10 * num_images
+    # fig_width = 15
+
+    fig, axes = plt.subplots(num_images, 2, figsize=(30,30))
 
     for i, (img, title, angle) in enumerate(zip(images, titles, angles)):
         # Threshold image
@@ -36,25 +41,19 @@ def rect_alignment(images:list, titles:list, angles:list):
         center = (width / 2, height / 2)
 
         # Get rotation Matrix
-        rotate_matrix = cv.getRotationMatrix2D(center=center, angle=angle, scale=1)
+        rotate_matrix = cv.getRotationMatrix2D(center=center, angle=angle, scale=1.2)
         # Rotate Image
         rotated_image = cv.warpAffine(src=img, M=rotate_matrix, dsize=(width, height))
 
-        # Create a mask to fill dark sections with white
-        mask = np.ones_like(rotated_image) * 255
-
-        # Apply the mask to rotated image
-        rotated_image_with_mask = cv.bitwise_and(rotated_image, mask)
-
         # Plot original Image
-        axes[i, 0].imshow(cv.cvtColor(img, cv.COLOR_GRAY2BGR))  # Convert BGR to RGB for plotting
+        axes[i, 0].imshow(cv.cvtColor(img, cv.COLOR_GRAY2BGR), aspect='equal')  # Convert BGR to RGB for plotting
         axes[i, 0].set_title(f"Original Image: {title}")
 
         # Plot rotated image
-        axes[i, 1].imshow(cv.cvtColor(rotated_image_with_mask, cv.COLOR_GRAY2BGR))  # Convert BGR to RGB for plotting
+        axes[i, 1].imshow(cv.cvtColor(rotated_image, cv.COLOR_GRAY2BGR),aspect='equal')  # Convert BGR to RGB for plotting
         axes[i, 1].set_title(f"Rotated image: {title}")
 
-    plt.tight_layout()
+    plt.tight_layout(pad=15)
     plt.show()
 
 # Load images
