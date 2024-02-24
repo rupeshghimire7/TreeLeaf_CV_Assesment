@@ -19,6 +19,36 @@ import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+def get_shape(contour):
+    '''
+    Parameters
+    ------------------
+    contour: list of coordinates forming contour
+
+    Operations
+    -------------------
+    calculate contour area, and number of vertices and calculate for shape
+
+    Returns
+    -----------------
+    shape: str: Rectangle or Line
+    '''
+
+    # Calculate area of contour
+    area = cv.contourArea(contour)
+
+    vertices = cv.approxPolyDP(contour, 0.04 * cv.arcLength(contour, True), True)
+    num_vertices = len(vertices)
+
+    if area<1000 and num_vertices<3:
+      return 'Line'
+    else: return 'Rectangle'
+
+
+
+    
+
 image = cv.imread('rect.jpg')
 gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY) # Grayscale the image
 
@@ -62,18 +92,6 @@ for i, contour in enumerate(contours):
 
 rectangles = []
 lines = []
-
-def get_shape(contour):
-    # Calculate area of contour
-    area = cv.contourArea(contour)
-
-    vertices = cv.approxPolyDP(contour, 0.04 * cv.arcLength(contour, True), True)
-    num_vertices = len(vertices)
-
-    if area<1000 and num_vertices<3:
-      return 'Line'
-    else: return 'Rectangle'
-
 
 for contour in contours:
     shape = get_shape(contour)
