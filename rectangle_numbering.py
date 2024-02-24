@@ -123,5 +123,3 @@ plt.title("Ranked")
 plt.imshow(img)
 
 plt.show()
-cv.waitKey(27)
-cv.destroyAllWindows()
