@@ -1,4 +1,4 @@
-# TreeLeaf Technologies Assesment For Computer Vision Internship
+# Computer Vision Tasks
 
 
 ## Task 1: 
